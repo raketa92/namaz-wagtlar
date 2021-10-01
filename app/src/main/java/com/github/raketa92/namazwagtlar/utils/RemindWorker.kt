@@ -1,11 +1,8 @@
 package com.github.raketa92.namazwagtlar.utils
 
-import android.app.AlarmManager
-import android.app.PendingIntent
 import android.content.Context
 import android.os.Build
 import android.util.Log
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.hilt.work.HiltWorker
 import androidx.work.*
@@ -14,7 +11,6 @@ import com.github.raketa92.namazwagtlar.repository.NamazRepo
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.InternalCoroutinesApi
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 import java.util.*
@@ -27,18 +23,11 @@ class RemindWorker @AssistedInject constructor(
     @Assisted workerParameters: WorkerParameters,
     val namazRepo: NamazRepo,
 ) : Worker(context, workerParameters) {
-    private lateinit var alarmManager: AlarmManager
-    private lateinit var pendingIntent: PendingIntent
-    private lateinit var calendarForAlarm: Calendar
-    private lateinit var nextNamazTime: Time
 
     @RequiresApi(Build.VERSION_CODES.O)
     @InternalCoroutinesApi
     override fun doWork(): Result {
         Log.d(TAG, "Worker started")
-//        val title = inputData.getString("title")
-//        val message = inputData.getString("message")
-//        NotificationHelper(context).createNotification("title!!", "message!!")
         scheduleNextNotification()
         return Result.success()
     }
@@ -109,30 +98,6 @@ class RemindWorker @AssistedInject constructor(
         Log.d(TAG, "Today hours: ${todayHours}")
 
         return todayHours
-//        return listOf(
-//            Time(5,50, "fajr"),
-//            Time(13,30, "zuhr"),
-//            Time(17,50, "asr"),
-//        )
-    }
-
-    @InternalCoroutinesApi
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun setNextNamazTimeForToday() {
-        val today = LocalDate.parse(LocalDateTime.now().toString())
-//        val todayTimes = namazRepo.getByDate(today).value
-//        nextNamazTime = getNextNamazTime(todayTimes!!)
-    }
-
-    private fun setCalendar() {
-        val remindBefore = 10
-        calendarForAlarm = Calendar.getInstance()
-//        calendarForAlarm.set(Calendar.HOUR_OF_DAY, nextNamazTime.hour)
-//        calendarForAlarm.set(Calendar.MINUTE, nextNamazTime.minute - remindBefore)
-        calendarForAlarm.set(Calendar.HOUR_OF_DAY, 11)
-        calendarForAlarm.set(Calendar.MINUTE, 32)
-        calendarForAlarm.set(Calendar.SECOND, 0)
-        calendarForAlarm.set(Calendar.MILLISECOND, 0)
     }
 
     companion object {
