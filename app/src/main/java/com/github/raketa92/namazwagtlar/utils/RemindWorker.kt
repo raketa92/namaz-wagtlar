@@ -11,7 +11,9 @@ import com.github.raketa92.namazwagtlar.repository.NamazRepo
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.InternalCoroutinesApi
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 import java.util.*
 import java.util.concurrent.ExecutionException
@@ -46,9 +48,9 @@ class RemindWorker @AssistedInject constructor(
         val requests = mutableListOf<WorkRequest>()
         var delay = 15
         var index = 0
+        val now = LocalDateTime.now()
         times.forEach forEach@{ time ->
             val zeros = justifyTimeFormat(time)
-            val now = LocalDateTime.now()
             val namazTime =
                 LocalDateTime.of(now.year, now.month, now.dayOfMonth, time.hour, time.minute)
             val diff = ChronoUnit.MINUTES.between(now, namazTime)
@@ -89,6 +91,7 @@ class RemindWorker @AssistedInject constructor(
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getNextNamazTimes(): List<Time> {
+        //TODO: change DB structure: remove years
         val todayTime = LocalDateTime.now()
         val today = todayTime.toLocalDate()
         val todayTimes = namazRepo.getByDateList(today)
@@ -120,9 +123,9 @@ class RemindWorker @AssistedInject constructor(
             for (workInfo in workInfoList) {
                 val state = workInfo.state
                 Log.d(TAG, "States: $state")
+                Log.d(TAG, "workInfo: $workInfo")
                 if (state == WorkInfo.State.RUNNING || state == WorkInfo.State.ENQUEUED)
                     running = true
-//                running = (state == WorkInfo.State.RUNNING) or (state == WorkInfo.State.ENQUEUED)
             }
             Log.d(TAG, "IsScheduled: $running")
             return running

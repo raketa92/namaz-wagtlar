@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private lateinit var calendarForAlarm: Calendar
+    private val PREF_ONE_TIME_WORK = "one_time_work"
 
     private lateinit var navController: NavController
     private lateinit var drawerLayout: DrawerLayout
@@ -44,6 +44,9 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
+        val pref_one_time_work = getSharedPreferences(PREF_ONE_TIME_WORK, MODE_PRIVATE)
+        val isOneTimeWorkStarted = pref_one_time_work?.getBoolean(PREF_ONE_TIME_WORK, false)
+        if (!isOneTimeWorkStarted!!) startOneTimeWork()
 
         if (!RemindWorker.isWorkScheduled("daily_time_scheduler", this))
             startSchedulerWorker()
@@ -53,46 +56,56 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    private fun setCalendar() {
-        val now = Calendar.getInstance()
-        val hour = now.get(Calendar.HOUR_OF_DAY)
-        val minute = now.get(Calendar.MINUTE)
-        val seconds = now.get(Calendar.SECOND)
-        Log.d("RemindWorker:", "$hour:$minute:$seconds")
-
-        calendarForAlarm = Calendar.getInstance()
-        calendarForAlarm.set(Calendar.HOUR_OF_DAY, hour)
-        calendarForAlarm.set(Calendar.MINUTE, minute)
-        calendarForAlarm.set(Calendar.SECOND, seconds + 5)
-        calendarForAlarm.set(Calendar.MILLISECOND, 0)
-    }
-
     @InternalCoroutinesApi
     @RequiresApi(Build.VERSION_CODES.O)
     private fun startSchedulerWorker() {
-        setCalendar()
         val constraints = Constraints.Builder()
             .setRequiresCharging(false)
             .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
             .setRequiresBatteryNotLow(false)
             .build()
 
-        val nowInMillis = Calendar.getInstance().timeInMillis
-        val diff = calendarForAlarm.timeInMillis - nowInMillis
+        val cal = (24 - Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) * 60
+        val diffMidNight = cal + 20
+
+        Log.d("RemindWorkerMain:", "diffMidNight: $diffMidNight")
 
         val dailyRequest = PeriodicWorkRequest.Builder(RemindWorker::class.java, 1, TimeUnit.DAYS)
             .setConstraints(constraints)
             .addTag("daily_time_scheduler")
-            .setInitialDelay(diff, TimeUnit.MILLISECONDS)
+            .setInitialDelay(diffMidNight.toLong(), TimeUnit.MINUTES)
             .build()
 
         WorkManager.getInstance(this)
             .enqueueUniquePeriodicWork(
-                "daily_time_scheduler",
+                "daily_time_work",
                 ExistingPeriodicWorkPolicy.REPLACE,
                 dailyRequest
             )
-        Toast.makeText(this, "Reminders set", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Daily reminders set", Toast.LENGTH_LONG).show()
+    }
+
+    private fun startOneTimeWork() {
+        val constraints = Constraints.Builder()
+            .setRequiresCharging(false)
+            .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
+            .setRequiresBatteryNotLow(false)
+            .build()
+
+        val now = Calendar.getInstance().get(Calendar.SECOND)
+        val diff = (Calendar.getInstance().get(Calendar.SECOND) + 5) - now
+
+        val oneTimeRequest = OneTimeWorkRequestBuilder<RemindWorker>()
+            .setConstraints(constraints)
+            .addTag("one_time_scheduler")
+            .setInitialDelay(diff.toLong(), TimeUnit.SECONDS)
+            .build()
+
+        WorkManager.getInstance(this).enqueue(oneTimeRequest)
+        Toast.makeText(this, "One time reminders set", Toast.LENGTH_LONG).show()
+
+        val pref_one_time_work = getSharedPreferences(PREF_ONE_TIME_WORK, MODE_PRIVATE)
+        pref_one_time_work.edit().putBoolean(PREF_ONE_TIME_WORK, true).apply()
     }
 
 }

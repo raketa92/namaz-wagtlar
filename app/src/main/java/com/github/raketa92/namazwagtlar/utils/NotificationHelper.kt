@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.app.TaskStackBuilder
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 
 import android.media.RingtoneManager
 import android.os.Build
@@ -30,6 +31,8 @@ class NotificationHelper(val context: Context) {
             .setSmallIcon(R.drawable.ic__618917_009688)
             .setContentTitle(title)
             .setContentText(message)
+            .setVibrate(longArrayOf(1000, 1000))
+            .setLights(Color.GREEN, 3000, 3000)
             .setContentIntent(pendingIntent)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()
