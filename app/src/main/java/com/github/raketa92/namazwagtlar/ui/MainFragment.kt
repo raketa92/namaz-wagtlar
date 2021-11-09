@@ -1,25 +1,17 @@
 package com.github.raketa92.namazwagtlar.ui
 
-import android.app.AlarmManager
 import android.app.DatePickerDialog
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.github.raketa92.namazwagtlar.databinding.FragmentMainBinding
 import com.github.raketa92.namazwagtlar.models.NamazTime
-import com.github.raketa92.namazwagtlar.models.Time
-import com.github.raketa92.namazwagtlar.utils.AlarmReciever
-import com.github.raketa92.namazwagtlar.utils.getNextNamazTime
 import com.github.raketa92.namazwagtlar.viewmodel.NamazViewModel
 import com.github.raketa92.namazwagtlar.viewmodel.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -74,13 +66,11 @@ class MainFragment : Fragment() {
             sharedViewModel.selectedDate?.value = selectedDate
         }
 
-
         val dateListener =
             DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
                 calendar.set(Calendar.YEAR, year)
                 calendar.set(Calendar.MONTH, month)
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-
                 updateView()
             }
 
@@ -113,7 +103,10 @@ class MainFragment : Fragment() {
         selectedDate = LocalDate.parse(dateTV.text, formatter)
         sharedViewModel.selectedDate?.value = selectedDate
         selectedDate?.let { date ->
-            namazViewModel.getByDate(date).observe(viewLifecycleOwner) { namazTime ->
+            //TODO: create date with 2021 year
+            val todayTime = LocalDateTime.of(2021, date.month, date.dayOfMonth, 0, 0, 0,)
+            val today = todayTime.toLocalDate()
+            namazViewModel.getByDate(today).observe(viewLifecycleOwner) { namazTime ->
                 setData(namazTime)
             }
         }

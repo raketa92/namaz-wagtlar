@@ -66,14 +66,16 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         val cal = (24 - Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) * 60
-        val diffMidNight = cal + 20
+//        val diffMidNight = cal + 20
+        val diffMidNight = Calendar.getInstance().get(Calendar.SECOND) + 5
 
         Log.d("RemindWorkerMain:", "diffMidNight: $diffMidNight")
 
         val dailyRequest = PeriodicWorkRequest.Builder(RemindWorker::class.java, 1, TimeUnit.DAYS)
             .setConstraints(constraints)
             .addTag("daily_time_scheduler")
-            .setInitialDelay(diffMidNight.toLong(), TimeUnit.MINUTES)
+//            .setInitialDelay(diffMidNight.toLong(), TimeUnit.MINUTES)
+            .setInitialDelay(diffMidNight.toLong(), TimeUnit.SECONDS)
             .build()
 
         WorkManager.getInstance(this)

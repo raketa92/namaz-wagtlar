@@ -1,14 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="ui.AboutFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_marginTop="200dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/contact_us_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_email_24"
+            android:layout_marginStart="40dp"
+            />
+
+        <TextView
+            android:id="@+id/contact_us_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="contact us by email"
+            android:textColor="@color/black"
+            android:layout_marginStart="10dp"
+             />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_marginTop="230dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/app_version_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="App version 1.0.0"
+            android:textColor="@color/black"
+            android:layout_marginStart="40dp"
+
+            />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
 
 </FrameLayout>

@@ -2,4 +2,22 @@
     <string name="app_name">namaz wagtlar</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Preference Titles -->
+    <string name="appearance">Appearance</string>
+    <string name="reminders">Reminders</string>
+
+    <!-- Appearance Preferences -->
+    <string name="enable_dark_mode">Enable dark mode</string>
+    <string name="summaryOff_dark_mode">Enable dark mode</string>
+    <string name="summaryOn_dark_mode">Disable dark mode</string>
+
+
+    <!-- Reminders Preferences -->
+    <string name="enable_reminder">Enable reminders</string>
+    <string name="one_min_reminder">Remind 1 minute before</string>
+    <string name="custom_min_reminder">Remind N minutes before</string>
+    <string name="summaryOff_reminder">Enable reminder</string>
+    <string name="summaryOn_reminder">Disable reminder</string>
+    <string name="reminder_tip">In order to make reminders work properly,
+            \nyou have to remove this app from battery optipization</string>
 </resources>

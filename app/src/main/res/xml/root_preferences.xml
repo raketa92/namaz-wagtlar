@@ -1,0 +1,49 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory app:title="@string/appearance">
+
+        <SwitchPreferenceCompat
+            app:key="dark_mode"
+            app:summaryOff="@string/summaryOff_dark_mode"
+            app:summaryOn="@string/summaryOn_dark_mode"
+            app:title="@string/enable_dark_mode" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/reminders">
+
+        <SwitchPreferenceCompat
+            app:key="enable_reminder"
+            app:title="@string/enable_reminder"
+            app:summaryOff="@string/summaryOff_reminder"
+            app:summaryOn="@string/summaryOn_reminder"
+            />
+
+        <Preference
+            android:dependency="enable_reminder"
+            app:key="reminder_tip"
+            app:isPreferenceVisible="false"
+            android:title="Tip"
+            app:selectable="false"
+            app:summary="@string/reminder_tip"/>
+
+        <SwitchPreferenceCompat
+            app:dependency="enable_reminder"
+            app:key="enable_one_min_reminder"
+            app:title="@string/one_min_reminder"
+            app:summaryOff="@string/summaryOff_reminder"
+            app:summaryOn="@string/summaryOn_reminder"
+            />
+
+        <ListPreference
+            app:dependency="enable_reminder"
+            app:entries="@array/reminder_entries"
+            app:entryValues="@array/reminder_values"
+            app:key="custom_reminder"
+            app:title="@string/custom_min_reminder"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

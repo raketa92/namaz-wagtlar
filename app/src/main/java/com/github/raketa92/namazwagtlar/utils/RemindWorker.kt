@@ -92,10 +92,12 @@ class RemindWorker @AssistedInject constructor(
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getNextNamazTimes(): List<Time> {
         //TODO: change DB structure: remove years
-        val todayTime = LocalDateTime.now()
+        val now = LocalDate.now()
+        val todayTime = LocalDateTime.of(2021, now.month, now.dayOfMonth, 0, 0, 0,)
         val today = todayTime.toLocalDate()
         val todayTimes = namazRepo.getByDateList(today)
         val todayHours = getTodayHours(todayTimes)
+
         Log.d(TAG, "today: $today")
         Log.d(TAG, "Times: ${todayTimes}")
         Log.d(TAG, "Today hours: ${todayHours}")
