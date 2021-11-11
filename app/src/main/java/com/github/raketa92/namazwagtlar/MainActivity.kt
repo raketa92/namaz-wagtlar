@@ -13,6 +13,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.preference.PreferenceManager
 import androidx.work.*
 import com.github.raketa92.namazwagtlar.utils.RemindWorker
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,6 +25,13 @@ import java.util.concurrent.TimeUnit
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val PREF_ONE_TIME_WORK = "one_time_work"
+    private val PREF_REMINDER = "enable_reminder"
+    private val PREF_ONE_MIN_REMINDER = "enable_one_min_reminder"
+    private val PREF_CUSTOM_REMINDER = "custom_reminder"
+
+    private var is_reminder_enabled: Boolean? = null
+    private var is_one_min_reminder_enabled: Boolean? = null
+    private var custom_reminder_value: String? = null
 
     private lateinit var navController: NavController
     private lateinit var drawerLayout: DrawerLayout
@@ -44,12 +52,16 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        val pref_one_time_work = getSharedPreferences(PREF_ONE_TIME_WORK, MODE_PRIVATE)
-        val isOneTimeWorkStarted = pref_one_time_work?.getBoolean(PREF_ONE_TIME_WORK, false)
-        if (!isOneTimeWorkStarted!!) startOneTimeWork()
-
-        if (!RemindWorker.isWorkScheduled("daily_time_scheduler", this))
-            startSchedulerWorker()
+//        val pref_one_time_work = getSharedPreferences(PREF_ONE_TIME_WORK, MODE_PRIVATE)
+//        val isOneTimeWorkStarted = pref_one_time_work?.getBoolean(PREF_ONE_TIME_WORK, false)
+//        is_reminder_enabled = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(PREF_REMINDER, false)
+//        is_one_min_reminder_enabled = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(PREF_ONE_MIN_REMINDER, false)
+//        custom_reminder_value = PreferenceManager.getDefaultSharedPreferences(this).getString(PREF_CUSTOM_REMINDER, "10")
+//
+//        if (!isOneTimeWorkStarted!! and is_reminder_enabled!!) startOneTimeWork()
+//
+//        if (!RemindWorker.isWorkScheduled("daily_time_scheduler", this) and is_reminder_enabled!!)
+//            startSchedulerWorker()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -66,16 +78,16 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         val cal = (24 - Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) * 60
-//        val diffMidNight = cal + 20
-        val diffMidNight = Calendar.getInstance().get(Calendar.SECOND) + 5
+        val diffMidNight = cal + 20 // start daily worker after midnight + 20 mins
+//        val diffMidNight = Calendar.getInstance().get(Calendar.SECOND) + 5
 
         Log.d("RemindWorkerMain:", "diffMidNight: $diffMidNight")
 
         val dailyRequest = PeriodicWorkRequest.Builder(RemindWorker::class.java, 1, TimeUnit.DAYS)
             .setConstraints(constraints)
             .addTag("daily_time_scheduler")
-//            .setInitialDelay(diffMidNight.toLong(), TimeUnit.MINUTES)
-            .setInitialDelay(diffMidNight.toLong(), TimeUnit.SECONDS)
+            .setInitialDelay(diffMidNight.toLong(), TimeUnit.MINUTES)
+//            .setInitialDelay(diffMidNight.toLong(), TimeUnit.SECONDS)
             .build()
 
         WorkManager.getInstance(this)
@@ -94,8 +106,9 @@ class MainActivity : AppCompatActivity() {
             .setRequiresBatteryNotLow(false)
             .build()
 
-        val now = Calendar.getInstance().get(Calendar.SECOND)
-        val diff = (Calendar.getInstance().get(Calendar.SECOND) + 5) - now
+//        val now = Calendar.getInstance().get(Calendar.SECOND)
+//        val diff = (Calendar.getInstance().get(Calendar.SECOND) + 5) - now // starts one time work after 5 secs
+        val diff = Calendar.getInstance().get(Calendar.SECOND) + 5 // starts one time work after 5 secs
 
         val oneTimeRequest = OneTimeWorkRequestBuilder<RemindWorker>()
             .setConstraints(constraints)

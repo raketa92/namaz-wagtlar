@@ -15,9 +15,10 @@
     <!-- Reminders Preferences -->
     <string name="enable_reminder">Enable reminders</string>
     <string name="one_min_reminder">Remind 1 minute before</string>
+    <string name="enable_custom_reminder">Enable custom reminder</string>
     <string name="custom_min_reminder">Remind N minutes before</string>
     <string name="summaryOff_reminder">Enable reminder</string>
     <string name="summaryOn_reminder">Disable reminder</string>
     <string name="reminder_tip">In order to make reminders work properly,
-            \nyou have to remove this app from battery optipization</string>
+            \nyou have to remove this app from battery optimization</string>
 </resources>

@@ -13,7 +13,6 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.InternalCoroutinesApi
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 import java.util.*
 import java.util.concurrent.ExecutionException
@@ -30,12 +29,13 @@ class RemindWorker @AssistedInject constructor(
     @InternalCoroutinesApi
     override fun doWork(): Result {
         Log.d(TAG, "Worker started")
-        scheduleNextNotification()
+        val delay = inputData.getInt("delay", 15)
+        scheduleNotification(delay)
         return Result.success()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun scheduleNextNotification() {
+    private fun scheduleNotification(delay: Int) {
         WorkManager.getInstance(context).cancelAllWorkByTag("namaz_times")
 
         val times = getNextNamazTimes()
@@ -46,7 +46,7 @@ class RemindWorker @AssistedInject constructor(
             .build()
 
         val requests = mutableListOf<WorkRequest>()
-        var delay = 15
+//        var delay = 15
         var index = 0
         val now = LocalDateTime.now()
         times.forEach forEach@{ time ->

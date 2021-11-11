@@ -4,7 +4,7 @@
     <PreferenceCategory app:title="@string/appearance">
 
         <SwitchPreferenceCompat
-            app:key="dark_mode"
+            app:key="enable_dark_mode"
             app:summaryOff="@string/summaryOff_dark_mode"
             app:summaryOn="@string/summaryOn_dark_mode"
             app:title="@string/enable_dark_mode" />
@@ -36,12 +36,21 @@
             app:summaryOn="@string/summaryOn_reminder"
             />
 
-        <ListPreference
+        <SwitchPreferenceCompat
             app:dependency="enable_reminder"
+            app:key="enable_custom_reminder"
+            app:title="@string/enable_custom_reminder"
+            app:summaryOff="@string/summaryOff_reminder"
+            app:summaryOn="@string/summaryOn_reminder"
+            />
+
+        <ListPreference
+            app:dependency="enable_custom_reminder"
             app:entries="@array/reminder_entries"
             app:entryValues="@array/reminder_values"
             app:key="custom_reminder"
             app:title="@string/custom_min_reminder"
+            app:dialogTitle="@string/custom_min_reminder"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>

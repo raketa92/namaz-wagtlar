@@ -29,6 +29,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:itemTextColor="@color/primaryTextColor"
+        android:theme="@style/Theme.NamazWagtlar"
         android:background="@color/primaryColor"
         app:menu="@menu/menu" />
 

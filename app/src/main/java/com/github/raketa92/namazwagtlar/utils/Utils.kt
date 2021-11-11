@@ -1,20 +1,13 @@
 package com.github.raketa92.namazwagtlar.utils
 
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.util.Log
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import com.github.raketa92.namazwagtlar.models.NamazTime
 import com.github.raketa92.namazwagtlar.models.Time
-import kotlinx.coroutines.InternalCoroutinesApi
 import java.io.InputStream
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
@@ -57,18 +50,6 @@ fun parseCsv(fileStream: InputStream): List<NamazTime> {
 
     fileStream.close()
     return results
-}
-
-@RequiresApi(Build.VERSION_CODES.O)
-fun getNextNamazTime(namazTime: NamazTime): Time {
-    var nextNamazTime = Time(0,0, "test")
-    val currentTimeHour = LocalDateTime.now().hour
-    val todayHours = getTodayHours(namazTime)
-    todayHours.forEach { time ->
-        if (time.hour > currentTimeHour) nextNamazTime = time
-    }
-    return nextNamazTime
-//    return Time(0, 0, "test")
 }
 
 fun getTodayHours(namazTime: NamazTime): List<Time> {

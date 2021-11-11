@@ -45,7 +45,6 @@ class NamazTimeWorker(
                 Log.d(TAG, "States: $state")
                 if (state == WorkInfo.State.RUNNING || state == WorkInfo.State.ENQUEUED)
                     running = true
-//                running = (state == WorkInfo.State.RUNNING) or (state == WorkInfo.State.ENQUEUED)
             }
             Log.d(TAG, "IsScheduled: $running")
             return running

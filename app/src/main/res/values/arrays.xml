@@ -1,5 +1,5 @@
 <resources>
-    <!-- Reply Preference -->
+    <!-- Reminders Preference -->
     <string-array name="reminder_entries">
         <item>10 min</item>
         <item>15 min</item>
