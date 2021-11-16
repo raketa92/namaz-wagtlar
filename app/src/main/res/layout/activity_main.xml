@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@color/primaryColor"
     tools:context=".MainActivity"
     tools:openDrawer="start">
 
@@ -29,7 +28,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:itemTextColor="@color/primaryTextColor"
-        android:theme="@style/Theme.NamazWagtlar"
+        android:theme="@style/AppTheme"
         android:background="@color/primaryColor"
         app:menu="@menu/menu" />
 
