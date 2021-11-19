@@ -6,19 +6,19 @@
     <group android:id="@+id/mainGroup">
         <item
             android:id="@+id/mainFragment"
-            android:title="main" />
+            android:title="@string/main_fragment_label" />
     </group>
 
     <group android:id="@+id/settingsGroup">
         <item
             android:id="@+id/settingsFragment"
-            android:title="settings" />
+            android:title="@string/settings_fragment_label" />
     </group>
 
     <group android:id="@+id/aboutGroup">
         <item
             android:id="@+id/aboutFragment"
-            android:title="about" />
+            android:title="@string/about_fragment_label" />
     </group>
 
 </menu>

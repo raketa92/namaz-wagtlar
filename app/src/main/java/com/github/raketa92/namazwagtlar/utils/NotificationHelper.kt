@@ -28,7 +28,7 @@ class NotificationHelper(val context: Context) {
         }
         val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic__618917_009688)
+            .setSmallIcon(R.drawable.ic_crescent_moon)
             .setContentTitle(title)
             .setContentText(message)
             .setVibrate(longArrayOf(1000, 1000))

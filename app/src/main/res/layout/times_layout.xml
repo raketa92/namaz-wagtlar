@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
             android:layout_alignParentStart="true"
-            android:text="fasting"
+            android:text="@string/fasting"
             android:textSize="24sp"
             />
 
@@ -51,7 +51,7 @@
             android:layout_alignParentStart="true"
             android:layout_marginStart="50dp"
             android:layout_marginTop="15dp"
-            android:text="fajr"
+            android:text="@string/fajr"
             android:textSize="24sp" />
 
         <TextView
@@ -84,7 +84,7 @@
             android:layout_marginStart="50dp"
             android:layout_marginTop="15dp"
             android:layout_alignParentStart="true"
-            android:text="sunrise"
+            android:text="@string/sunrise"
             android:textSize="24sp"
             />
 
@@ -116,7 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
             android:layout_marginTop="15dp"
-            android:text="zuhr"
+            android:text="@string/zuhr"
             android:textSize="24sp"
             android:layout_alignParentStart="true"
              />
@@ -148,7 +148,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
             android:layout_marginTop="15dp"
-            android:text="asr"
+            android:text="@string/asr"
             android:layout_alignParentStart="true"
             android:textSize="24sp"
             />
@@ -181,7 +181,7 @@
             android:layout_marginStart="50dp"
             android:layout_marginTop="15dp"
             android:layout_alignParentStart="true"
-            android:text="magrib"
+            android:text="@string/magrib"
             android:textSize="24sp"
             />
 
@@ -213,7 +213,7 @@
             android:layout_marginStart="50dp"
             android:layout_marginTop="15dp"
             android:layout_alignParentStart="true"
-            android:text="isha"
+            android:text="@string/isha"
             android:textSize="24sp"
              />
 

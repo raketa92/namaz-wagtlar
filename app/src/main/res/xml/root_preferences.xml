@@ -24,7 +24,7 @@
             android:dependency="enable_reminder"
             app:key="reminder_tip"
             app:isPreferenceVisible="false"
-            android:title="Tip"
+            android:title="@string/tip_title"
             app:selectable="false"
             app:summary="@string/reminder_tip"/>
 
@@ -34,6 +34,7 @@
             app:title="@string/one_min_reminder"
             app:summaryOff="@string/summaryOff_reminder"
             app:summaryOn="@string/summaryOn_reminder"
+            app:isPreferenceVisible="false"
             />
 
         <SwitchPreferenceCompat
@@ -42,6 +43,7 @@
             app:title="@string/enable_custom_reminder"
             app:summaryOff="@string/summaryOff_reminder"
             app:summaryOn="@string/summaryOn_reminder"
+            app:isPreferenceVisible="false"
             />
 
         <ListPreference
@@ -49,6 +51,7 @@
             app:entries="@array/reminder_entries"
             app:entryValues="@array/reminder_values"
             app:key="custom_reminder"
+            app:isPreferenceVisible="false"
             app:title="@string/custom_min_reminder"
             app:dialogTitle="@string/custom_min_reminder"
             app:useSimpleSummaryProvider="true" />

@@ -6,6 +6,7 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import com.github.raketa92.namazwagtlar.R
 import kotlinx.coroutines.InternalCoroutinesApi
 import java.util.*
 import java.util.concurrent.ExecutionException
@@ -20,7 +21,8 @@ class NamazTimeWorker(
         Log.d(TAG, "Worker started")
         val title = inputData.getString("title")
         val time = inputData.getString("time")
-        NotificationHelper(context).createNotification(title!!, "Next namaz starts at $time")
+        val notificationMessage = context.getString(R.string.notification_text)
+        NotificationHelper(context).createNotification(title!!, "$notificationMessage $time")
         return Result.success()
     }
 

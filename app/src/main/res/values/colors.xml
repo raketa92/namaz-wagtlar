@@ -8,6 +8,10 @@
     <color name="secondaryLightColor">#ffde99</color>
     <color name="secondaryDarkColor">#b87d3d</color>
     <color name="secondaryTextColor">#C1B3A5</color>
+
+    <color name="primaryColor_darkMode">#8E8BCD</color>
+    <color name="primaryDarkColor_darkMode">#16152E</color>
+    <color name="backgroundColor_darkMode">#16152E</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>

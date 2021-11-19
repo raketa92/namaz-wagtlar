@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="appearance">Görnüş</string>
+    <string name="reminders">Ýatladyjylar</string>
+    <string name="enable_dark_mode">Garaňky tema işletmek</string>
+    <string name="summaryOff_dark_mode">Garaňky tema işletmek</string>
+    <string name="summaryOn_dark_mode">Garaňky tema öçürmek</string>
+    <string name="enable_reminder">Ýatladyjylary işletmek</string>
+    <string name="one_min_reminder">1 minut öň ýatlatmak</string>
+    <string name="enable_custom_reminder">Şahsylaşdyrylan ýatlatmany işletmek</string>
+    <string name="custom_min_reminder">N minut öň ýatlatmak</string>
+    <string name="summaryOff_reminder">Ýatladyjylary işletmek</string>
+    <string name="summaryOn_reminder">Ýatladyjylary öçürmek</string>
+    <string name="reminder_tip">Ýatladyjylaryň dogry işlemegi üçin bu \nprogrammany batareýany optimizasiýadan aýyrmaly</string>
+    <string name="app_version">Programmanyň wersiýasy</string>
+    <string name="fasting">Agyz bekleme</string>
+    <string name="fajr">Ertir</string>
+    <string name="sunrise">Günüň dogýan wagty</string>
+    <string name="zuhr">Öýle</string>
+    <string name="asr">Ikindi</string>
+    <string name="magrib">Şam</string>
+    <string name="isha">Ýassy</string>
+    <string name="about_fragment_label">Biz barada</string>
+    <string name="settings_fragment_label">Sazlamalar</string>
+    <string name="notification_text">Namaz wagt</string>
+    <string name="tip_title">Maslahat</string>
+    <string name="main_fragment_label">Namaz wagtlar</string>
+    <string name="reminder_toast_message">Ýatladyjylar işledildi</string>
+</resources>

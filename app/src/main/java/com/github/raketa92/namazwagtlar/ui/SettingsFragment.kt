@@ -21,15 +21,11 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 class SettingsFragment : PreferenceFragmentCompat() {
-    private val PREF_ONE_TIME_WORK = "one_time_work"
-    private val PREF_ONE_MIN_WORK = "one_min_work"
-    private val PREF_CUSTOM_MIN_WORK = "one_custom_work"
+//    private val PREF_ONE_TIME_WORK = "one_time_work"
 
-    private val ONE_TIME_WORKER_TAG = "one_time_worker"
     private val ONE_TIME_WORKER_ONE_MIN_TAG = "one_time_worker_one_min"
     private val ONE_TIME_WORKER_CUSTOM_MIN_TAG = "one_time_worker_custom_min"
 
-    private val DAILY_WORKER_TAG = "daily_worker"
     private val DAILY_WORKER_ONE_MIN_TAG = "daily_worker_one_min"
     private val DAILY_WORKER_CUSTOM_MIN_TAG = "daily_worker_custom_min"
 
@@ -86,6 +82,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
         reminderPreference!!.onPreferenceChangeListener =
             Preference.OnPreferenceChangeListener { _, newValue ->
                 findPreference<Preference>(PREF_REMINDER_TIP)?.isVisible = newValue == true
+                findPreference<Preference>(PREF_ONE_MIN_REMINDER_ENABLE)?.isVisible = newValue == true
+                findPreference<Preference>(PREF_CUSTOM_REMINDER_ENABLE)?.isVisible = newValue == true
+                findPreference<Preference>(PREF_CUSTOM_REMINDER_VALUE)?.isVisible = newValue == true
                 if (newValue == false) {
                     findPreference<SwitchPreferenceCompat>(PREF_CUSTOM_REMINDER_ENABLE)?.isChecked = false
                     findPreference<SwitchPreferenceCompat>(PREF_ONE_MIN_REMINDER_ENABLE)?.isChecked = false
@@ -96,6 +95,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
         is_reminder_enabled = sp.getBoolean(PREF_REMINDER_ENABLE, false)
         if (is_reminder_enabled!!) {
             findPreference<Preference>(PREF_REMINDER_TIP)?.isVisible = true
+            findPreference<Preference>(PREF_ONE_MIN_REMINDER_ENABLE)?.isVisible = true
+            findPreference<Preference>(PREF_CUSTOM_REMINDER_ENABLE)?.isVisible = true
+            findPreference<Preference>(PREF_CUSTOM_REMINDER_VALUE)?.isVisible = true
         }
     }
 
@@ -138,6 +140,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         custom_reminder_value = PreferenceManager.getDefaultSharedPreferences(requireContext())
             .getString(PREF_CUSTOM_REMINDER_VALUE, "10")
         val customReminder = custom_reminder_value?.toInt()!!
+        Log.d("SETTINGS", "is_dark_mode_enabled: $is_dark_mode_enabled")
         Log.d("SETTINGS", "is_reminder_enabled: $is_reminder_enabled")
         Log.d("SETTINGS", "is_one_min_reminder_enabled: $is_one_min_reminder_enabled")
         Log.d("SETTINGS", "is_custom_reminder_enabled: $is_custom_reminder_enabled")
@@ -163,15 +166,15 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
 
         if (is_reminder_enabled!!) {
-            if (is_one_min_reminder_enabled as Boolean) startOneTimeWork(1, ONE_TIME_WORKER_ONE_MIN_TAG)
-            if (is_custom_reminder_enabled as Boolean) startOneTimeWork(customReminder, ONE_TIME_WORKER_CUSTOM_MIN_TAG)
+            if (is_one_min_reminder_enabled as Boolean) {
+                startOneTimeWork(1, ONE_TIME_WORKER_ONE_MIN_TAG)
+                startSchedulerWorker(1, DAILY_WORKER_ONE_MIN_TAG)
+            }
+            if (is_custom_reminder_enabled as Boolean) {
+                startOneTimeWork(customReminder, ONE_TIME_WORKER_CUSTOM_MIN_TAG)
+                startSchedulerWorker(customReminder, DAILY_WORKER_CUSTOM_MIN_TAG)
+            }
         }
-
-        if (is_reminder_enabled!!) {
-            if (is_one_min_reminder_enabled as Boolean) startSchedulerWorker(1, DAILY_WORKER_ONE_MIN_TAG)
-            if (is_custom_reminder_enabled as Boolean) startSchedulerWorker(customReminder, DAILY_WORKER_CUSTOM_MIN_TAG)
-        }
-
     }
 
     @InternalCoroutinesApi
@@ -187,7 +190,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         val cal = (24 - Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) * 60
         val diffMidNight = cal + 20 // start daily worker after midnight + 20 mins
-//        val diffMidNight = Calendar.getInstance().get(Calendar.SECOND) + 5
 
         val data = workDataOf("delay" to remindBefore)
         Log.d("RemindWorkerMain:", "diffMidNight: $diffMidNight")
@@ -197,7 +199,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
             .setInputData(data)
             .addTag(tag)
             .setInitialDelay(diffMidNight.toLong(), TimeUnit.MINUTES)
-//            .setInitialDelay(diffMidNight.toLong(), TimeUnit.SECONDS)
             .build()
 
         WorkManager.getInstance(requireContext())
@@ -206,7 +207,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 ExistingPeriodicWorkPolicy.REPLACE,
                 dailyRequest
             )
-        Toast.makeText(requireContext(), "Daily reminders set. Delay: $remindBefore", Toast.LENGTH_LONG).show()
+        val toastMsg = context?.getString(R.string.reminder_toast_message)
+        Toast.makeText(requireContext(), toastMsg, Toast.LENGTH_LONG).show()
     }
 
     private fun startOneTimeWork(remindBefore: Int, tag: String) {
@@ -218,8 +220,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
             .setRequiresBatteryNotLow(false)
             .build()
 
-//        val now = Calendar.getInstance().get(Calendar.SECOND)
-//        val diff = (Calendar.getInstance().get(Calendar.SECOND) + 5) - now // starts one time work after 5 secs
         val diff =
             Calendar.getInstance().get(Calendar.SECOND) + 5 // starts one time work after 5 secs
 
@@ -233,14 +233,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
             .build()
 
         WorkManager.getInstance(requireContext()).enqueue(oneTimeRequest)
-        Toast.makeText(requireContext(), "$tag. Delay: $remindBefore", Toast.LENGTH_LONG).show()
-
-        //???
-        val pref_one_time_work = context?.getSharedPreferences(
-            PREF_ONE_TIME_WORK,
-            AppCompatActivity.MODE_PRIVATE
-        )
-        pref_one_time_work?.edit()?.putBoolean(PREF_ONE_TIME_WORK, true)?.apply()
+//        val pref_one_time_work = context?.getSharedPreferences(
+//            PREF_ONE_TIME_WORK,
+//            AppCompatActivity.MODE_PRIVATE
+//        )
+//        pref_one_time_work?.edit()?.putBoolean(PREF_ONE_TIME_WORK, true)?.apply()
     }
 
 }

@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.preference.PreferenceManager
 import com.github.raketa92.namazwagtlar.databinding.FragmentMainBinding
 import com.github.raketa92.namazwagtlar.models.NamazTime
 import com.github.raketa92.namazwagtlar.viewmodel.NamazViewModel
@@ -24,6 +26,8 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 class MainFragment : Fragment() {
+    private val PREF_DARK_MODE_ENABLE = "enable_dark_mode"
+
     private var selectedDate: LocalDate? = null
     private var calendar: Calendar = Calendar.getInstance()
     private val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
@@ -41,6 +45,13 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val theme = prefs.getBoolean(PREF_DARK_MODE_ENABLE, false)
+        if (theme) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
         binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding!!.root
     }

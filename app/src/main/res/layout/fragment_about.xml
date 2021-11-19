@@ -6,46 +6,45 @@
     android:layout_height="match_parent"
     tools:context="ui.AboutFragment">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_marginTop="200dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/appVersion_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:text="@string/app_version"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.65" />
+
+        <TextView
+            android:id="@+id/appVersion_Number_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="@string/app_version_value"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/appVersion_txt"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.65" />
 
         <ImageView
-            android:id="@+id/contact_us_img"
+            android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_email_24"
-            android:layout_marginStart="40dp"
-            />
-
-        <TextView
-            android:id="@+id/contact_us_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="contact us by email"
-            android:textColor="@color/black"
-            android:layout_marginStart="10dp"
-             />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_marginTop="230dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/app_version_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="App version 1.0.0"
-            android:textColor="@color/black"
-            android:layout_marginStart="40dp"
-
-            />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            android:src="@drawable/ic_crescent_moon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.499" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 

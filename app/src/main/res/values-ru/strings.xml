@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="appearance">Вид</string>
+    <string name="reminders">Напоминания</string>
+    <string name="enable_dark_mode">Включить темный режим</string>
+    <string name="summaryOff_dark_mode">Включить темный режим</string>
+    <string name="summaryOn_dark_mode">Отключить темный режим</string>
+    <string name="enable_reminder">Включить напоминания</string>
+    <string name="one_min_reminder">Напомнить за 1 минуту до</string>
+    <string name="enable_custom_reminder">Включить индивидуальное напоминание</string>
+    <string name="custom_min_reminder">Напомнить за N минут до</string>
+    <string name="summaryOff_reminder">Включить напоминания</string>
+    <string name="summaryOn_reminder">Отключить напоминание</string>
+    <string name="reminder_tip">Чтобы напоминания работали правильно, \nвы должны удалить это приложение из оптимизации заряда батареи.</string>
+    <string name="app_version">Версия приложения</string>
+    <string name="fasting">Пост</string>
+    <string name="fajr">Фаджр</string>
+    <string name="sunrise">Восход</string>
+    <string name="zuhr">Зухр</string>
+    <string name="asr">Аср</string>
+    <string name="magrib">Магриб</string>
+    <string name="isha">Иша</string>
+    <string name="about_fragment_label">О нас</string>
+    <string name="settings_fragment_label">Настройки</string>
+    <string name="notification_text">Время намаза</string>
+    <string name="tip_title">Подсказка</string>
+    <string name="main_fragment_label" translatable="false">Время намаза</string>
+    <string name="reminder_toast_message">Напоминания включены</string>
+</resources>
